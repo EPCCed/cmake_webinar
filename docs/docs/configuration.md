@@ -5,4 +5,4 @@ When building a package one often needs to configure the build. One may need to 
 
 ## Commonly used variables
 
-## Specifying the compiler
+## Specifying the compilers
