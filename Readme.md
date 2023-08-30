@@ -10,7 +10,7 @@ You will need to install mkdocs-material. This can be installed as a python pack
 pip install mkdocs-material
 ```
 
-The documentation can be built on the fly by running
+The documentation can be built on the fly by running.
 
 ```bash
 mkdocs serve

@@ -26,9 +26,10 @@
     - old policy warnings
 - CTests ( ??? )
 
-## Resources
 
-- <https://cliutils.gitlab.io/modern-cmake/>
-- <https://cmake.org/cmake/help/latest/>
-- <https://coderefinery.github.io/cmake-workshop/testing/>
-- <https://enccs.github.io/cmake-workshop/cmake-syntax/>
+
+### Demos
+
+- Hello world example
+- Gromacs demo 
+- Windtunnel demo

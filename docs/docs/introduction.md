@@ -33,10 +33,12 @@ The second step of the process then consists in executing the build systems in o
 
 ## Main features of CMake
 
-- **Build abstraction**: No need to define all commands in the compilation process. One needs only specify which files need to be compiled, what exectuables and libraries need to be produces, which libraries to link etc.. . Cmake is reponsible for generating build dependencies, creating Makefiles, invoking the compiler etc.
-- **Portability** : CMake is able to generate a veriety of build systems for many platforms ( including Linux, Windows and Mac). For Unix systems Makefile is the default build system
+- **Build abstraction**: No need to define all commands in the compilation process. One needs only specify which files need to be compiled, what executables and libraries need to be produces, which libraries to link etc.. . Cmake is responsible for generating build dependencies, creating Makefile, invoking the compiler etc.
+- **Portability** : CMake is able to generate a variety of build systems for many platforms ( including Linux, Windows and Mac). For Unix systems Makefile is the default build system
 - **Out of source build**: Intermediary build files are generated in a build directory separated from the source directory. This prevents polluting the source directory and allows multiple builds from the same source code directory.
 
 ## Drawbacks of CMake
 
 - **Troubleshooting** : When configuration fails it can be difficult to diagnose and fix the issue.
+- **Versioning** : CMake has changed quite a bit between different versions and default behaviours have as well. This can make the build succeed with a CMake version but fail with an other.
+- **Development practices** : Due to the way CMake has evolved over the years some unsafe practices are still common among package developers.
