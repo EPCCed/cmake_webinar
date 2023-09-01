@@ -18,7 +18,7 @@ The command `add_executable` defines a target named `my_exec` . Successive argum
 
 ```cmake
 target_link_libraries( my_exec  MPI::MPI_Fortran)
-``` 
+```
 
 The command `target_link_libraries` sets the `link_libraries` property for a target. The property tells cmake which libraries to link with when creating the executable.
 
@@ -34,8 +34,11 @@ Valid accessor values are
 - **PRIVATE** : the property is used for the current target and is forwarded to other targets which depend on the current target
 - **INTERFACE** : the property is not used for the current target, but is forwarded to other targets which depends on the current target
 
+!!! Exercise
+    The folder `demos/create_a_package` contains the source code of a MPI hello world fortran program. It also contains a CMakeLists.txt but it does not define any target. Fill in the CMake code required to build an executable.
 
 ## Structure of a CMake project
+
 A CMake package needs to contain at least one `CMakeLists.txt` file.
 This file describes the cmake package using the CMake programming language. The CMake programming language is a complete programming language. One can define variables, conditionals , loops and all the features you may expect from a modern programming language.
 
@@ -43,10 +46,12 @@ This file describes the cmake package using the CMake programming language. The 
 
 The file starts by defining the minimum version of cmake cmake and which compiler languages are supported.
 Then one defines the **project** . The command takes as arguments the name of the project and a list of languages used to write the package.
+
 ```cmake
 cmake_minimum_required(VERSION 3.2)
 project( wind_tunnel LANGUAGES FORTRAN CUDA )
 ```
+
 ### Variables
 
 A package can define custom variables. CMake variables are usually local in scope to the function that they are defined with. Outside of a function, they are local to the subdirectory. Hence, a variable defined in a subfolder will not be accessible from the parent directory. The main exception are variables defined as `CACHE` which are global variables. `CACHE` variables can be accessed from anywhere in the project, no matter where they are defined and their values are preserved between different cmake invocations.
@@ -54,6 +59,7 @@ A package can define custom variables. CMake variables are usually local in scop
 ```cmake
 set( USE_CUDA OFF)
 ```
+
 The value of a variable can be accessed by prefixing with a `$` sign
 
 ```cmake
@@ -61,7 +67,9 @@ ${USE_CUDA}
 ```
 
 ### Options
+
 These are logical variables which can be turned on or off by the user at configure time. They can be used to enable compilation of additional components or providing support for additional parallel paradigms. In this example the option is used to turn on/off support for gpu.
+
 ```cmake
 
 option(USE_CUDA "Enable using CUDA for optimization" ON )
@@ -79,5 +87,10 @@ add_subdirectory( src )
 
 This command looks for a specific package. The recipe will be defined in a `Find<Packagename>.cmake` file. You can optionally specify if the package is optional or if it is required for a successful build. The command `find_package` will look for the package in a [pre-defined set of directories](https://cmake.org/cmake/help/latest/command/find_package.html?highlight=find_package#search-procedure) and will return the first one it finds. If no package is found and the package is marked as required a fatal error will be thrown.If a package is found it will define targets and/or variables which can used later in the project.
 
-### Tests
- CMake contains a mechanism to run tests called `ctest`. These need to be explicitly enabled.
+!!! Exercise
+    Look at the CMake code for the windtunnel program.
+
+    - Can you recognize the different sections ?
+    - Where is the executable target defined ?
+    - Where is the target linked to MPI ?
+    - Where is the default build type defined ?

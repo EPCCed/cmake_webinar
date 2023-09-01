@@ -57,3 +57,8 @@ Once all the executable and libraries have been generated, these need to be copi
 ```
 make install
 ```
+### Tests
+ CMake contains a mechanism to run tests called `ctest`. These need to be explicitly enabled.
+
+!!! Exercise
+    Try to build the hello world CMake package contained in `demos/hello_world_cmake`.
