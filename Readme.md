@@ -2,7 +2,7 @@
 
 This repository contains the source material for a Archer2 EPCC webinar.
 
-# Build the instructions
+# Build instructions
 
 You will need to install mkdocs-material. This can be installed as a python package
 
