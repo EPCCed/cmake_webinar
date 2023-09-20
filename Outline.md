@@ -1,7 +1,7 @@
 # Cmake webinar
 
+## Presentation
 
-### Presentation 
 First we give an high level overview of what CMake is and what it can be used for.
 
 - Go trough the images in the Introduction pages. Present cmake as a build generator tool, and higher level of abstraction for compiling

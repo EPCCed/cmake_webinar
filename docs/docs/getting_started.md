@@ -1,35 +1,41 @@
 # Getting started
-First thing one needs to have installed the CMake framework. 
-## Getting CMake
-On own machine this can be easily installed from a package manager.
 
-- On Ubuntu you could use
+In order to build a cmake package you first need to install cmake.
+
+## Getting CMake
+
+You can install CMake from several package managers. For instance, on Ubuntu, you can install it with
+
 ```bash
 sudo apt install cmake
 ```
-- On computing clusters CMake is usually already installed. On Archer2 you need to load the centrally installed cmake module
+
+On computing clusters CMake is usually already centrally installed. On the Archer2 machine, you can load the centrally installed  module.
+
 ```bash
 module load cmake
 ```
 
 ## Compiling a CMake package
+
 Compiling a CMake package requires three steps
 
-- Configuration step
-- Build step
-- Install step
+- A Configuration step
+- A Build step
+- An install step
 
 ### Configuration
 
-In the *configuration* step one first need to created a build directory. The build directory will be populated with themporary build files, such as object files and internal cmake configuration files.
-Then change the current directory to the build directory.
+First you need to create a build directory. 
+The build directory will be populated with temporary build files, such as object files and internal cmake configuration files.
+You then need to change the current directory to the build directory.
 
 ```bash
 mkdir build 
 cd build
 ```
 
-You then need to tell CMake to look for compilers, check for dependencies and find where libraries are stored on your systems. Let us assume the package you wish to compile is in  `$CMAKE_PACKAGE_DIRECTORY` and you wish to install the package in the `$INSTALL_DIR_PACKAGE`.
+You also need to tell CMake to look for compilers, check for dependencies and find where libraries are stored on your system. Let us assume you wish to compile the source code in  `$CMAKE_PACKAGE_DIRECTORY`. Moreover, let us assume you wish the resulting binaries to be installed in the `$INSTALL_DIR_PACKAGE`.
 From the build directory type
 
 ```bash
@@ -39,6 +45,7 @@ cmake $CMAKE_PACKAGE_DIRECTORY -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR_PACKAGE .
 This will generate a build system in the build directory. On UNIX based systems, the default build system is `Makefile`.
 
 ### Build
+
 Upon successful completion of the configuration step cmake will output a `Makefile` in your build directory.
 In order to compile the package you can type
 
@@ -46,19 +53,31 @@ In order to compile the package you can type
 make
 ```
 
-If you whish to see some more verbose output, including the compilation commands being executed type 
+If you whish to see some more verbose output, including the compilation commands being executed type
 
 ```bash
 make VERBOSE=1
 ```
 
+After a successful build, the binary files will be saved somewhere in the build directory.
+
 ### Install
-Once all the executable and libraries have been generated, these need to be copied to the installation directory you specified during the configuration phase.
-```
+
+Once all the executable and libraries have been generated, these need to be copied to the installation directory you specified during the configuration phase. You can copy the binaries in your specified install directory by typing
+
+```bash
 make install
 ```
+
 ### Tests
- CMake contains a mechanism to run tests called `ctest`. These need to be explicitly enabled.
+
+CMake contains a mechanism to run tests. This can be useful to test that the package was successfully  installed. If tests have been defined by the CMake package developers, from the build directory you can type
+
+```bash
+ctest 
+```
+
+This command will run all the tests. If a test fails it will print out an error message.
 
 !!! Exercise
     Try to build the hello world CMake package contained in `demos/hello_world_cmake`.

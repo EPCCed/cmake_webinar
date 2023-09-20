@@ -1,49 +1,53 @@
-# Configuring a build
+# Configuration
 
-When building a package one often needs to configure the build. One may need to specify which compiler to use or turn on/off some functionality in the package, specify which libraries to link with and what compiler to use.
-
-
+When building a package you often need to configure the build process.
+You may need to specify which compiler to use or turn on/off some functionality in the package, specify which libraries to link with and what compiler to use,  etc. .
 
 ## Setting variables
 
-When compiling a package often a package defines some variables that can be set by the user. Some of these variables are builtin in the cmake framework, while other are set by the user.
+Often a package defines some variables that can be set by the user. Some of these variables are builtin in the cmake framework, while others are created by the package developers.
 
 ### Listing variables
 
-A list of all variables, including variables defined by the cmake package and built-in variables, can be found with
+You can find a list of all variables, including variables defined by the cmake package and built-in variables by typing
 
 ```bash
 cmake ${CMAKE_PACKAGE_DIRECTORY} -LHA
 ```
 
-by using the options
+Here you invoke cmake with the source directory as a first argument and the additional flags
 
-- `-L` : list all variables
-- `-A` : list all advanced variables. Variables marked as `advanced` are hidden by default and usually do not need to be changed by the package user.
-- `-H` : show helper strings. An helper string is associated with a variable and is meant to provide a description of the variable.
+- `-L` : print a list of CMake variables
+- `-A` : print a list of all advanced variables. Variables marked as `advanced` are hidden by default and usually do not need to be changed by the package user.
+- `-H` : print helper strings for each variable. A helper string is meant to provide a description of the variable.
 
-An alternative option is to use the interactive tool
+Alternatively, you can use the interactive tool
 
 ```bash
 ccmake ${CMAKE_PACKAGE_DIRECTORY}
 ```
-This will open an interactive program. The user interface allows to view and modify variables which can be defined by the user.
+
+This will open an interactive program. The user interface allows to view and modify user-modifiable variables.
 
 ### Specifying variables
-One you know the name of a variable and which value you want to set it to, you can specify a variable at configure time by adding the argument `-DVAR_NAME=${VAR_VALUE}`
+
+Once you know the name of a variable and which value you want to set it to, you can specify a variable at configure time by adding the argument `-DVAR_NAME=${VAR_VALUE}`
+
+For instance, you can configure a project with the variable named `VAR_NAME` set to  `${VAR_VALUE}` by typing
+
 ```
 cmake ${CMAKE_PACKAGE_DIRECTORY} -DVAR_NAME=${VAR_VALUE}
 ```
-In the example above one configures the project by defining a variable named `VAR_NAME` and setting its value to `${VAR_VALUE}`.
 
 ### Builtin variables
 
-Some variables defined by CMake are commonly used on many projects.
+Some variables are defined by CMake itself and not by the package developers.
+Some commonly used CMake variables are
 
-- **CMAKE_BUILD_TYPE**: This can be set to one of Debug, Release, RelWithDebInfo, MinSizeRel. It an be used to turn on optimization flags ( Release ) or debugging flags ( Debug )
-- **CMAKE_INSTALL_PREFIX**: Directory where to copy targets after being built. After running the install step, this directory will contain any binary, library and header file built by CMake.
+- **CMAKE_BUILD_TYPE**: Can be set to one of `Debug`, `Release`, `RelWithDebInfo`, `MinSizeRel`. You can use it to turn on optimization flags ( Release ) or debugging flags ( Debug ).
+- **CMAKE_INSTALL_PREFIX**: The directory where to copy installation files after you built the package in the build folder. After running the install step, the installation directory will contain all executables, libraries and modules built by the CMake package.
 
-A list of all pre-defined variables can be obtained with
+You can obtain a list of all pre-defined CMake variables withe flag `--help-variable-list`
 
 ```bash
 cmake --help-variable-list
@@ -51,22 +55,29 @@ cmake --help-variable-list
 
 ## Specifying the compilers
 
-Most CMake projects will require a compiler. If not specified CMake will look for one compiler and use the first it finds.
+In order to build a CMake package, you will need a compiler.
+If not specified, CMake will look for a compiler on your system and use the first it finds.
+
 !!! Warning
-    If multiple compilers are present on the system cmake may find the wrong compiler, without returning any error. This may result in errors at building or run time.
-The easier way to specify a variable is to set an environment variable before configuring the project. The name of the variable will depend on the choice of compiler. Common variables are `CXX`,`CC` and `FC` , respectively for the `C++`,`C` and `Fortran` languages.
-On a Cray machine one may want to type in
+    If multiple compilers are present on the system CMake may find the wrong compiler, without returning any error. This  results in errors at building or run time.
+
+You can define the compiler by setting an environment variable before configuring the project. 
+The name of the environment variable will depend on the choice of the compiler. Common variables are `CXX`,`CC` and `FC` , respectively for the `C++`,`C` and `Fortran` languages.
+For instance for a GNU compiler , one could type
 
 ```bash
-export CXX=CC
-export CC=cc
-export FC=ftn
+export CXX=g++
+export CC=gcc
+export FC=gfortran
 ```
 
 before running cmake.
 
-Alternatively, the compilers can be specified as CMake variables
+Alternatively, you can specify the compilers by setting the appropriate CMake variables
 
 ```bash
- cmake ${CMAKE_PACKAGE_DIRECTORY} -DCMAKE_Fortran_COMPILER=ftn -DCMAKE_C_COMPILER=cc -DCMAKE_CXX_COMPILER=CXX
+ cmake ${CMAKE_PACKAGE_DIRECTORY} -DCMAKE_Fortran_COMPILER=gfortran -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++
 ```
+
+!!! Exercise
+    Try to build the **windtunnel** CMake package contained in `demos/wind_tunnel`.You will need to define some variables in order to successfully build the package.
