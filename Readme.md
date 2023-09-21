@@ -20,6 +20,8 @@ This will start a local server on localhost and display the address at which the
 
 ## Outline of live-coding
 
+The webinar will mostly be presented as a live-coding session on Cirrus.
+
 - Go trough the images in the Introduction pages. Present cmake as a build generator tool, and higher level of abstraction for compiling
 - Go to the Hello World example and demonstrate the configure/build/install process 
 - Go to WindTunnel example and try to compile. Show how to see the list of variables and what they mean
