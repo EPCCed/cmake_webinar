@@ -1,6 +1,6 @@
 # Resources
 
-Below you can find some further online resources to learn CMake
+Below you can find some further online resources to learn CMake:
 
 - <https://cliutils.gitlab.io/modern-cmake/>
 - <https://cmake.org/cmake/help/latest/>
