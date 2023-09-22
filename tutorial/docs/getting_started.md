@@ -30,8 +30,8 @@ First you need to create a build directory. It will be populated with temporary 
 You then need to go inside that newly created directory as the following commands will need to be run from within it:
 
 ```bash
-mkdir build 
-cd build
+mkdir $BUILD_DIRECTORY 
+cd $BUILD_DIRECTORY
 ```
 
 You also need to tell CMake to look for compilers, check for dependencies and find where libraries are stored on your system. Let us assume you wish to compile the source code in `$CMAKE_PACKAGE_DIRECTORY` and that the resulting binaries should be installed in `$INSTALL_DIR_PACKAGE`.
@@ -42,6 +42,11 @@ cmake $CMAKE_PACKAGE_DIRECTORY -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR_PACKAGE .
 ```
 
 This will generate a build system in the build directory. On UNIX based systems, the default build system is `Makefile`.
+Alternatively, you can run CMake from any directory, by specifying the the source and build directory respectively with the `-S` and `-B` flag.
+
+```bash
+cmake -S $CMAKE_PACKAGE_DIRECTORY -B $BUILD_DIRECTORY
+```
 
 ### Build
 
@@ -59,6 +64,11 @@ make VERBOSE=1
 ```
 
 After a successful build, the binary files will be saved somewhere in the build directory.
+Alternatively, you can use
+
+```bash
+cmake --build .
+```
 
 ### Install
 
@@ -66,6 +76,12 @@ Once all the executable and libraries have been generated, these need to be copi
 
 ```bash
 make install
+```
+
+Alternatively, you can run
+
+```bash
+cmake --build . --target install
 ```
 
 ### Tests
