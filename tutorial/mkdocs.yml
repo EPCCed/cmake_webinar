@@ -4,10 +4,11 @@ theme:
 nav:
   - Introduction: introduction.md
   - Getting started: getting_started.md
-  - Configuring the build: configuration.md
-  - Structure of a CMake package: structure.md
+  - Configuration: configuration.md
+  - Writing a CMake package: structure.md
   - Trouble shooting: trouble_shooting.md
   - Resources: resources.md
+
 
 markdown_extensions:
   - attr_list
