@@ -22,13 +22,19 @@ This will start a local server on localhost and display the address at which the
 
 The webinar will mostly be presented as a live-coding session on Cirrus.
 
-- Go trough the images in the Introduction pages. Present cmake as a build generator tool, and higher level of abstraction for compiling
-- Go to the Hello World example and demonstrate the configure/build/install process 
-- Go to WindTunnel example and try to compile. Show how to see the list of variables and what they mean
-- Try to recompile `windtunnel` using the intel compilers and intel mpi.
-- Try to recompile using the unwrapped MPI wrapper compiler and an external implementation of openmpi. Goal is to teach usage of `-DPACKAGE_NAME_ROOT`
-- Go to MPI hello world example. Goal is to give the concept of a target and target properties
-- Show the need for policies by trying to use -DMPI_ROOT
+
+## Presentation
+
+- Go trough the introduction in the Introduction pages.
+- Go to the Hello World example and demonstrate the configure/build/install process
+- Go to WindTunnel example and try to compile. Show how to see the list of variables and helper strings.
+- Try to recompile `windtunnel` using the Intel compilers and Intel mpi. Demonstrate how to change the compilers and MPI.
+- Try to recompile using the unwrapped MPI wrapper compiler and OpenMPI as the external compiler. The goal is to teach usage of `-DPACKAGE_NAME_ROOT` . Also show issues that can arise from the appropriate policy not being set.
+
+
+### Tentative
+
+- Go to the MPI Hello World example. The main goal is to give the concept of a target and target properties.
 
 ## Using in Docker
 
@@ -36,4 +42,4 @@ You should serve the container on url 0.0.0.0 ( instead of localhost )
 
 ```bash
 mkdocs serve -a 0.0.0.0:8887  
-````
+```
