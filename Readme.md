@@ -13,6 +13,7 @@ pip install mkdocs-material
 The documentation can be built on the fly by running.
 
 ```bash
+cd tutorial
 mkdocs serve
 ```
 
