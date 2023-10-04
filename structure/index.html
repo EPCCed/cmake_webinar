@@ -1,0 +1,474 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../configuration/">
+      
+      
+        <link rel="next" href="../trouble_shooting/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.3">
+    
+    
+      
+        <title>Writing a CMake package - CMake tutorial</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.79e020e9.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#writing-a-cmake-package" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="CMake tutorial" class="md-header__button md-logo" aria-label="CMake tutorial" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CMake tutorial
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Writing a CMake package
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="CMake tutorial" class="md-nav__button md-logo" aria-label="CMake tutorial" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    CMake tutorial
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting_started/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting started
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Writing a CMake package
+  </span>
+  
+
+      </a>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../trouble_shooting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Trouble shooting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../resources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Resources
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="writing-a-cmake-package">Writing a CMake package</h1>
+<p>Occasionally, in order to build a code, you need to modify a CMake package.
+Learning to recognise the different components of a CMake package is useful even if you are not a CMake package developer. This page gives a brief overview of how to write a CMake package.</p>
+<h1 id="structure-of-a-cmake-project">Structure of a CMake project</h1>
+<p>A CMake package needs to contain at least one <code>CMakeLists.txt</code> file.
+This file describes the CMake package using the CMake programming language. The CMake programming language is a complete programming language in which one can define variables, conditionals, loops and all the features you would expect from a modern programming language.</p>
+<h3 id="project-definition">Project definition</h3>
+<p>You start writing a <code>CMakeLists.txt</code> file by defining the minimum supported version of cmake and which compiler languages are supported.
+Then you need to define the <strong>project</strong> with the <code>project( ... )</code> function. This function takes as arguments the name of the project and accepts optionally a list of programming languages included in the project.</p>
+<div class="language-cmake highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="w"> </span><span class="s">VERSION</span><span class="w"> </span><span class="s">3.2</span><span class="w"> </span><span class="p">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">project</span><span class="p">(</span><span class="w"> </span><span class="s">wind_tunnel</span><span class="w"> </span><span class="s">LANGUAGES</span><span class="w"> </span><span class="s">FORTRAN</span><span class="w"> </span><span class="s">CUDA</span><span class="w"> </span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="targets">Targets</h2>
+<p>A <strong>target</strong> defines an object to be built by CMake. A target may be either an <em>executable</em> or a <em>library</em>. You can define a property on a target to control how the target is built. For instance, you can compile and link flags, external libraries and the location of source files by defining the appropriate properties for the target.</p>
+<figure>
+<p><img alt="Compilation process" src="../images/targets.png" /></p>
+<figcaption> The output executable my_exec is defined as a target. In order to build the target, you can set the target properties `source_files` and `link_libraries`. A property can contain a list of elements and those elements can be other targets.</figcaption>
+</figure>
+<p>To create an executable target you can use the <code>add_executable</code> function, which takes as argument the name of the new target to be created:
+<div class="language-cmake highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">add_executable</span><span class="p">(</span><span class="w"> </span><span class="s">my_exec</span><span class="w"> </span><span class="p">)</span>
+</span></code></pre></div>
+You can also specify the location of the source files needed to build the executable by setting the <code>sources</code> property with the <code>target_sources</code> function:</p>
+<div class="language-cmake highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">target_sources</span><span class="p">(</span><span class="w"> </span><span class="s">my_exec</span><span class="w"> </span><span class="s">PRIVATE</span><span class="w"> </span><span class="s">source1.f90</span><span class="w"> </span><span class="s">source2.f90</span><span class="w"> </span><span class="p">)</span>
+</span></code></pre></div>
+<p>The function accepts as the first argument the name of the target. The following argument is a declaration of how the property should be propagated to other targets that depend on the target <code>my_exec</code>.
+Valid accessor values are:</p>
+<ul>
+<li><strong>PUBLIC</strong>: the property gets forwarded to targets which depend on the current target.</li>
+<li><strong>PRIVATE</strong>: the property is used for the current target and is forwarded to other targets which depend on the current target</li>
+<li><strong>INTERFACE</strong>: the property is not used to build the current target, but is forwarded to other targets which depend on the current target</li>
+</ul>
+<p>In this case, you only need the source files to build the current target, so you may declare the property as private. The declaration is followed by a list of filenames.
+In order to create an executable, you often need to link with external libraries in the linking phase. You may do so using the <code>target_link_libraries</code> function. This function sets the <code>link_libraries</code> property for a target. If you wish <code>my_exec</code> to use <code>MPI</code> in <code>Fortran</code>, you can use:</p>
+<div class="language-cmake highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">target_link_libraries</span><span class="p">(</span><span class="w"> </span><span class="s">my_exec</span><span class="w">  </span><span class="s">MPI::MPI_Fortran</span><span class="w"> </span><span class="p">)</span>
+</span></code></pre></div>
+<p>Where the first argument is the name of the target and the second one is the name of the external library.</p>
+<p>You might also need to include external files, such as <code>C/C++</code> header files or <code>Fortran</code> modules. You may do so with the <code>target_include_directories</code> function. This function takes as argument the name of the target, followed by the access specifier and a list of directories. For instance you can include <code>MPI</code> Fortran modules with:</p>
+<div class="language-cmake highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">target_include_directories</span><span class="p">(</span><span class="w"> </span><span class="s">my_exec</span><span class="w"> </span><span class="s">PUBLIC</span><span class="w"> </span><span class="o">${</span><span class="nv">MPI_FORTRAN_DIRS</span><span class="o">}</span><span class="w"> </span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="find_package">find_package</h2>
+<p>This command looks for a specific package. The command will look for instructions on how to find a package by looking for a <code>Find&lt;Packagename&gt;.cmake</code> file.
+You can specify whether the package is optional or required for a successful build. The command <code>find_package</code> will look for the package in a <a href="https://cmake.org/cmake/help/latest/command/find_package.html?highlight=find_package#search-procedure">pre-defined set of directories</a> and will return the first one it finds. If no package is found and the package is marked as required a fatal error will be thrown.
+If a package is found it will define targets and/or variables which you can use later in your project.</p>
+<div class="admonition exercise">
+<p class="admonition-title">Exercise</p>
+<p>The folder <code>demos/create_a_package</code> contains the source code of a MPI hello world fortran program. It also contains a <code>CMakeLists.txt</code> but it does not define any target. Fill in the CMake code required to build an executable.</p>
+</div>
+<h2 id="variables">Variables</h2>
+<p>You can define custom variables in a CMake package using the function <code>set</code>. The function accepts as first argument the name of the variable and as second argument the value of the variable. 
+For instance, in order to set a variable with name <code>USE_CUDA</code> to the value <code>false</code>:</p>
+<div class="language-cmake highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">set</span><span class="p">(</span><span class="w"> </span><span class="s">USE_CUDA</span><span class="w"> </span><span class="s">false</span><span class="w"> </span><span class="p">)</span>
+</span></code></pre></div>
+<p>You can access the value of a variable by prefixing with a <code>$</code> sign. For instance, for the variable defined above the command</p>
+<div class="language-cmake highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="err">${USE_CUDA}</span>
+</span></code></pre></div>
+<p>will evaluate to false.
+CMake variables are usually local in scope to the function that they are defined in.
+If defined outside of a function, they are local to the subdirectory.
+Hence, a variable defined in a subfolder will not be accessible from the parent directory. 
+One exception are variables defined as <code>CACHE</code>. These variables are global variables which can be accessed from anywhere in the project, no matter where they are defined. Additionally, once a cache variable has been set, it will not be changed by successive cmake calls.
+Cached variables are used for variables that need to be set from the user. A variable can be set as cached by setting a third optional argument to <code>CACHE</code>. 
+For instance, to set the <code>CMAKE_BUILD_TYPE</code> variable to <code>Release</code> you can use</p>
+<div class="language-cmake highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nb">set</span><span class="p">(</span><span class="w"> </span><span class="s">CMAKE_BUILD_TYPE</span><span class="w"> </span><span class="s">Release</span><span class="w"> </span><span class="s">CACHE</span><span class="w"> </span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="options">Options</h2>
+<p>These are logical variables which you can turn on or off at configure time. You can use options to enable compilation of additional components or to provide support for additional parallel paradigms.
+You can define an option with the <code>option( ...)</code> function, which can accept as arguments the name of the variable to be set, an helper string to provide a human-readable description of the option and the value ON or OFF.
+For instance, in order to turn on CUDA support, you may use</p>
+<div class="language-cmake highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">option</span><span class="p">(</span><span class="w"> </span><span class="s">USE_CUDA</span><span class="w"> </span><span class="s2">&quot;Enable using CUDA for optimization&quot;</span><span class="w"> </span><span class="s">ON</span><span class="w"> </span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="include-subdirectories">Include subdirectories</h2>
+<p>It is good practice to organise your package in different modules. You can place each module in a separate directory. Then you can write a <code>CMakeLists.txt</code> file in each subdirectory describing how to build the corresponding module.
+You can have an additional <code>CMakeLists.txt</code> in the root folder of your project and add the subdirectories to your main project. You can add sub directories with the <code>add_subdirectory( ... )</code>function. This function takes as argument the location of the sub folder. For instance, if you want to include a <code>src</code> folder in your project you may use </p>
+<div class="language-cmake highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nb">add_subdirectory</span><span class="p">(</span><span class="w"> </span><span class="s">src</span><span class="w"> </span><span class="p">)</span>
+</span></code></pre></div>
+<div class="admonition exercise">
+<p class="admonition-title">Exercise</p>
+<p>Look at the CMake code for the <strong>windtunnel</strong> program.</p>
+<ul>
+<li>Can you recognise the different sections ?</li>
+<li>Where is the executable target defined ?</li>
+<li>Where is the target linked to MPI ?</li>
+<li>Where is the default build type defined ?</li>
+</ul>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.a264c092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.6eac0284.min.js"></script>
+      
+    
+  </body>
+</html>
